@@ -19,15 +19,7 @@ export class TodoApp extends Component {
       value : ''
     };
   }
-   async componentDidMount() {
-    try {
-      await AsyncStorage.setItem('@MySuperStore:key', 'I like to save it.');
-      let value = await AsyncStorage.getItem('@MySuperStore:key');
-      this.setState({value : value})
-    } catch (error) {
-      console.log(error)
-    }
-  }
+
   handlerAddNewList = e => {
     this.props.addList(e.nativeEvent.text);
     this.setState({ todoText: "" });
@@ -55,7 +47,7 @@ export class TodoApp extends Component {
           <FlatList
             data={this.props.arrayList.filter(item => item.completed === false)}
             renderItem={({ item }) => (
-              <View key={item.id} style={styles.listTodo}>
+              <View style={styles.listTodo}>
                 <Text style={styles.item}>{item.text}</Text>
                 <Button
                   title="D"
