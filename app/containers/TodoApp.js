@@ -5,7 +5,7 @@ import {
   TextInput,
   FlatList,
   Button,
-  ScrollView
+  ScrollView,AsyncStorage
 } from "react-native";
 import React, { Component } from "react";
 import { connect } from "react-redux";
@@ -15,8 +15,18 @@ export class TodoApp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      toDoText: ""
+      toDoText: "",
+      value : ''
     };
+  }
+   async componentDidMount() {
+    try {
+      await AsyncStorage.setItem('@MySuperStore:key', 'I like to save it.');
+      let value = await AsyncStorage.getItem('@MySuperStore:key');
+      this.setState({value : value})
+    } catch (error) {
+      console.log(error)
+    }
   }
   handlerAddNewList = e => {
     this.props.addList(e.nativeEvent.text);
@@ -29,8 +39,9 @@ export class TodoApp extends Component {
     this.props.doneTask(id);
   };
   render() {
+    console.log(this.state.value)
     return (
-      <ScrollView>
+      <ScrollView style ={styles.container}>
         <View>
           <TextInput
             style={{ height: 40 }}
